@@ -4,6 +4,9 @@ import axiosApi from "../../axiosApi";
 import {Page} from "../../types";
 import PAGES from "../../pages";
 import Spinner from "../Spinner/Spinner";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
 
 interface FormMutation {
   title: string;
@@ -16,12 +19,19 @@ const Form: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const value = e.target.value;
     const name = e.target.name;
     setPage(prev => ({
       ...prev,
       [name]: value,
+    }))
+  };
+
+  const onQuillChange = (html: string) => {
+    setPage(prev => ({
+      ...prev,
+      content: html,
     }))
   };
 
@@ -83,12 +93,12 @@ const Form: React.FC = () => {
                 value={page.title}
                 onChange={onTextFieldChange}
             />
-            <textarea
-                className="d-block mt-2"
-                name="content"
-                placeholder="Введите сообщение"
-                value={page.content}
-                onChange={onTextFieldChange}
+            <ReactQuill
+              theme="snow"
+              className="d-block mt-2"
+              placeholder="Введите сообщение"
+              value={page.content}
+              onChange={onQuillChange}
             />
             <button type="submit" className="d-block btn btn-primary mt-2">Save</button>
           </form>

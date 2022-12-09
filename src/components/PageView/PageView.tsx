@@ -27,7 +27,7 @@ const PageView = () => {
   let info = (
     <div>
       <h3>{page?.title}</h3>
-      <p>{page?.content}</p>
+      <div dangerouslySetInnerHTML={{ __html: page?.content!}} />
     </div>
   );
 
